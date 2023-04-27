@@ -1,5 +1,5 @@
 using Amazon.SQS;
-using SqsSample;
+using SqsConsumerSample;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>

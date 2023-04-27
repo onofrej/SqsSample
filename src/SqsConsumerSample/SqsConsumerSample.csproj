@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dotnet-SqsSample-CB056458-F88B-4EEE-AF9C-719962F6F8A9</UserSecretsId>
+    <UserSecretsId>dotnet-SqsConsumerSample-CB056458-F88B-4EEE-AF9C-719962F6F8A9</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

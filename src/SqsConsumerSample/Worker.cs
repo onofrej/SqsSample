@@ -1,26 +1,25 @@
 using Amazon.SQS;
 using Amazon.SQS.Model;
 
-namespace SqsSample
+namespace SqsConsumerSample
 {
     public class Worker : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
         private readonly IAmazonSQS _amazonSQS;
 
-        public Worker(ILogger<Worker> logger, IAmazonSQS amazonSQS)
+        public Worker(IAmazonSQS amazonSQS)
         {
-            _logger = logger;
             _amazonSQS = amazonSQS;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var queueResponse = await _amazonSQS.GetQueueUrlAsync("SampleSqsQueue");
+            var queueResponse = await _amazonSQS.GetQueueUrlAsync("SampleSqsQueue", stoppingToken);
 
             var receiveMessageRequest = new ReceiveMessageRequest
             {
-                QueueUrl = queueResponse.QueueUrl
+                QueueUrl = queueResponse.QueueUrl,
+                MaxNumberOfMessages = 10,
             };
 
             while (!stoppingToken.IsCancellationRequested)
@@ -31,11 +30,9 @@ namespace SqsSample
                 {
                     Console.WriteLine($"Message ID: {message.MessageId}");
                     Console.WriteLine($"Message Body: {message.Body}");
+
+                    _ = await _amazonSQS.DeleteMessageAsync(queueResponse.QueueUrl, message.ReceiptHandle, stoppingToken);
                 }
-
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-
-                await Task.Delay(1000, stoppingToken);
             }
         }
     }

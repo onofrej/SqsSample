@@ -1,6 +1,6 @@
 ﻿{
   "profiles": {
-    "SqsSample": {
+    "SqsConsumerSample": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "environmentVariables": {
